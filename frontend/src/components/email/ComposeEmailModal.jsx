@@ -12,7 +12,7 @@ function fillPlaceholders(text, connection) {
     .replace(/{{position}}/g, connection.position || '');
 }
 
-export default function ComposeEmailModal({ connection, onClose }) {
+export default function ComposeEmailModal({ connection, onClose, onEmailAction }) {
   const { user, profile } = useAuth();
   const { templates, loading } = useEmailTemplates();
   const [selectedId, setSelectedId] = useState('');
@@ -40,6 +40,7 @@ export default function ComposeEmailModal({ connection, onClose }) {
     const to = connection.email || '';
     const url = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     window.open(url, '_blank');
+    onEmailAction?.();
   }
 
   async function handleCopy() {
@@ -47,6 +48,7 @@ export default function ComposeEmailModal({ connection, onClose }) {
     await navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+    onEmailAction?.();
   }
 
   async function handleAiDraft() {

@@ -26,8 +26,86 @@ function MatchScore({ score }) {
   );
 }
 
-export default function ConnectionCard({ connection, rank, onSchedule, onSnooze, onDismiss }) {
+// Vertical layout used inside the swipeable deck
+function DeckLayout({ connection, rank, onSchedule, onSnooze, onDismiss, onEmailAction }) {
   const [composing, setComposing] = useState(false);
+  const name = `${connection.firstName} ${connection.lastName}`;
+  const initials = getInitials(connection.firstName, connection.lastName);
+  const avatarColor = getAvatarColor(name);
+
+  return (
+    <div className={styles.deckCard}>
+      <div className={styles.deckTopRow}>
+        <span className={styles.deckRank}>#{rank}</span>
+        <MatchScore score={connection.matchScore} />
+      </div>
+
+      <div className={styles.deckAvatarWrap}>
+        <div className={styles.deckAvatar} style={{ background: avatarColor }}>
+          {initials}
+        </div>
+      </div>
+
+      <div className={styles.deckInfo}>
+        <h3 className={styles.deckName}>{name}</h3>
+        <p className={styles.deckRole}>
+          {connection.position}
+          {connection.company && <> · <strong>{connection.company}</strong></>}
+        </p>
+        {connection.location && (
+          <p className={styles.deckLocation}>📍 {connection.location}</p>
+        )}
+        <div className={styles.deckMatchReason}>
+          <span className={styles.deckMatchIcon}>✦</span>
+          {connection.matchReason}
+        </div>
+      </div>
+
+      <div className={styles.deckActions}>
+        <button className={`btn-primary ${styles.deckScheduleBtn}`} onClick={onSchedule}>
+          Schedule a call
+        </button>
+        <div className={styles.deckSecondary}>
+          <button className="btn-secondary" onClick={() => setComposing(true)}>
+            Email
+          </button>
+          <button className="btn-ghost" onClick={onSnooze} title="Snooze 7 days">
+            ⏱ Snooze
+          </button>
+          <button className="btn-ghost" onClick={onDismiss} title="Dismiss">
+            ✕ Dismiss
+          </button>
+        </div>
+      </div>
+
+      {composing && (
+        <ComposeEmailModal
+          connection={connection}
+          onClose={() => setComposing(false)}
+          onEmailAction={onEmailAction}
+        />
+      )}
+    </div>
+  );
+}
+
+// Horizontal list layout (used elsewhere if needed)
+export default function ConnectionCard({ connection, rank, onSchedule, onSnooze, onDismiss, onEmailAction, deck }) {
+  const [composing, setComposing] = useState(false);
+
+  if (deck) {
+    return (
+      <DeckLayout
+        connection={connection}
+        rank={rank}
+        onSchedule={onSchedule}
+        onSnooze={onSnooze}
+        onDismiss={onDismiss}
+        onEmailAction={onEmailAction}
+      />
+    );
+  }
+
   const name = `${connection.firstName} ${connection.lastName}`;
   const initials = getInitials(connection.firstName, connection.lastName);
   const avatarColor = getAvatarColor(name);
@@ -82,7 +160,11 @@ export default function ConnectionCard({ connection, rank, onSchedule, onSnooze,
       </div>
 
       {composing && (
-        <ComposeEmailModal connection={connection} onClose={() => setComposing(false)} />
+        <ComposeEmailModal
+          connection={connection}
+          onClose={() => setComposing(false)}
+          onEmailAction={onEmailAction}
+        />
       )}
     </div>
   );

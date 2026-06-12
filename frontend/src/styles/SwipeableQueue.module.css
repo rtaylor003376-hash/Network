@@ -1,0 +1,112 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+  user-select: none;
+}
+
+/* Outer container reserves space for ghost cards peeking out */
+.deckOuter {
+  position: relative;
+  width: min(440px, 100%);
+  height: 480px;
+}
+
+/* Ghost card layers — create the "stack" illusion */
+.ghost2 {
+  position: absolute;
+  inset: 0;
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  transform: translateX(14px) translateY(12px) rotate(3deg);
+  box-shadow: var(--shadow-sm);
+}
+
+.ghost1 {
+  position: absolute;
+  inset: 0;
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  transform: translateX(7px) translateY(6px) rotate(1.5deg);
+  box-shadow: var(--shadow-sm);
+}
+
+.activeCard {
+  position: absolute;
+  inset: 0;
+  cursor: grab;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.activeCard:active {
+  cursor: grabbing;
+}
+
+.fading {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+/* Navigation row */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.arrow {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  color: var(--color-text-secondary);
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  padding-bottom: 2px;
+  flex-shrink: 0;
+  transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), opacity var(--transition-fast);
+}
+
+.arrow:hover:not(:disabled) {
+  background: var(--color-surface-raised);
+  border-color: var(--color-brand);
+  color: var(--color-brand);
+}
+
+.arrow:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+
+.dots {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--color-border);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+.dot:hover {
+  background: var(--color-border-strong);
+}
+
+.dotActive {
+  background: var(--color-accent);
+  transform: scale(1.35);
+}

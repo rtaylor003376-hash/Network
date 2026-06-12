@@ -1,12 +1,12 @@
 import { useDailyQueue } from '../../hooks/useDailyQueue.js';
 import { useConnections } from '../../hooks/useConnections.js';
-import ConnectionCard from './ConnectionCard.jsx';
+import SwipeableQueue from './SwipeableQueue.jsx';
 import LoadingSpinner from '../shared/LoadingSpinner.jsx';
 import EmptyState from '../shared/EmptyState.jsx';
 import { useNavigate } from 'react-router-dom';
 import styles from '../../styles/DailyQueue.module.css';
 
-export default function DailyQueue({ onSchedule }) {
+export default function DailyQueue({ onSchedule, onEmailAction }) {
   const { queue, loading } = useDailyQueue();
   const { dismissConnection, snoozeConnection } = useConnections();
   const navigate = useNavigate();
@@ -51,18 +51,13 @@ export default function DailyQueue({ onSchedule }) {
           }
         />
       ) : (
-        <div className={styles.cards}>
-          {queue.map((connection, index) => (
-            <ConnectionCard
-              key={connection.id}
-              connection={connection}
-              rank={index + 1}
-              onSchedule={() => onSchedule(connection)}
-              onSnooze={() => snoozeConnection(connection.id)}
-              onDismiss={() => dismissConnection(connection.id)}
-            />
-          ))}
-        </div>
+        <SwipeableQueue
+          queue={queue}
+          onSchedule={onSchedule}
+          onSnooze={snoozeConnection}
+          onDismiss={dismissConnection}
+          onEmailAction={onEmailAction}
+        />
       )}
     </div>
   );
