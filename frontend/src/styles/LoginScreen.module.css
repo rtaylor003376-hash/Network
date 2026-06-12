@@ -1,0 +1,148 @@
+.page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--color-bg);
+}
+
+@media (max-width: 768px) {
+  .page {
+    grid-template-columns: 1fr;
+  }
+  .illustration {
+    display: none;
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--space-16) var(--space-12);
+  max-width: 480px;
+  width: 100%;
+  margin: 0 auto;
+  gap: var(--space-8);
+}
+
+.logoRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.logoMark {
+  width: 36px;
+  height: 36px;
+  background: var(--color-brand);
+  color: #fff;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.logoText {
+  font-size: var(--font-size-2xl);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--color-text-primary);
+}
+
+.headline h1 {
+  font-size: var(--font-size-3xl);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--color-text-primary);
+  line-height: 1.2;
+  margin-bottom: var(--space-3);
+}
+
+.headline p {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  line-height: 1.65;
+}
+
+.error {
+  background: var(--color-error-light);
+  color: var(--color-error);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-size-sm);
+}
+
+.googleBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-6);
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  font-family: inherit;
+}
+
+.googleBtn:hover:not(:disabled) {
+  border-color: var(--color-brand);
+  box-shadow: var(--shadow-md);
+}
+
+.googleBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.fine {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+/* Right panel — floating company cards */
+.illustration {
+  background: linear-gradient(135deg, #1A2238 0%, #232D4B 55%, #2D3A62 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.floatCard {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-5);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.90);
+  animation: floatUp 3s ease-in-out infinite;
+  animation-delay: var(--delay);
+  transform: translate(var(--x), var(--y));
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+@keyframes floatUp {
+  0%, 100% { transform: translate(var(--x), var(--y)); }
+  50% { transform: translate(var(--x), calc(var(--y) - 10px)); }
+}

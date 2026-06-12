@@ -1,0 +1,145 @@
+.card {
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  display: grid;
+  grid-template-columns: auto 52px 1fr auto;
+  gap: var(--space-4);
+  align-items: start;
+  transition: box-shadow var(--transition-base), border-color var(--transition-base);
+  position: relative;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-brand-light);
+}
+
+.rankBadge {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  color: var(--color-text-muted);
+  padding-top: 2px;
+  width: 20px;
+  text-align: right;
+}
+
+.avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-md);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.nameRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.name {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+
+.role {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.role strong {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.location {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.locationIcon {
+  font-size: 11px;
+}
+
+.matchReason {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-brand);
+  background: var(--color-brand-light);
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  width: fit-content;
+}
+
+.matchIcon {
+  font-size: 10px;
+}
+
+/* Score bar */
+.score {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.scoreBar {
+  width: 60px;
+  height: 4px;
+  background: var(--color-border);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.scoreFill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 400ms ease;
+}
+
+.scorePct {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  min-width: 30px;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.scheduleBtn {
+  white-space: nowrap;
+}
+
+.secondary {
+  display: flex;
+  gap: var(--space-1);
+}

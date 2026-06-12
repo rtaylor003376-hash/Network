@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Environment variables — never commit real values
+.env
+.env.local
+.env.*.local
+
+# Firebase service account key — contains private credentials
+serviceAccountKey.json
+
+# Build output
+dist/
+build/
+
+# Vite cache
+.vite/
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
