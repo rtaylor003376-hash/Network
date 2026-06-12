@@ -1,6 +1,7 @@
 .card {
   background: var(--color-surface);
   border: 1.5px solid var(--color-border);
+  border-left: 3px solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: var(--space-6);
   display: grid;
@@ -13,7 +14,8 @@
 
 .card:hover {
   box-shadow: var(--shadow-md);
-  border-color: var(--color-brand-light);
+  border-color: var(--color-border);
+  border-left-color: var(--color-accent);
 }
 
 .rankBadge {
@@ -53,6 +55,7 @@
 }
 
 .name {
+  font-family: var(--font-serif);
   font-size: var(--font-size-lg);
   font-weight: 700;
   color: var(--color-text-primary);

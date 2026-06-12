@@ -38,10 +38,11 @@
 }
 
 .logoText {
+  font-family: var(--font-serif);
   font-weight: 700;
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-xl);
   color: #fff;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 }
 
 .links {

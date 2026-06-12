@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext.jsx';
+import RotundaSVG from '../shared/RotundaSVG.jsx';
 import styles from '../../styles/LoginScreen.module.css';
 
 export default function LoginScreen() {
@@ -12,7 +13,7 @@ export default function LoginScreen() {
     setError('');
     try {
       await signInWithGoogle();
-    } catch (err) {
+    } catch {
       setError('Sign-in failed. Please try again.');
       setLoading(false);
     }
@@ -47,17 +48,14 @@ export default function LoginScreen() {
       </div>
 
       <div className={styles.illustration}>
-        <div className={styles.floatCard} style={{ '--delay': '0s', '--x': '0px', '--y': '0px' }}>
-          <span className={styles.dot} style={{ background: '#22c55e' }} />
-          <span>McKinsey · Strategy</span>
-        </div>
-        <div className={styles.floatCard} style={{ '--delay': '0.4s', '--x': '30px', '--y': '60px' }}>
-          <span className={styles.dot} style={{ background: '#3b82f6' }} />
-          <span>Amazon · Product</span>
-        </div>
-        <div className={styles.floatCard} style={{ '--delay': '0.8s', '--x': '-20px', '--y': '120px' }}>
-          <span className={styles.dot} style={{ background: '#a855f7' }} />
-          <span>Deloitte · Consulting</span>
+        <div className={styles.illustrationInner}>
+          <RotundaSVG className={styles.rotunda} />
+          <div className={styles.rotundaCaption}>
+            <div className={styles.captionRule} />
+            <span>University of Virginia · Est. 1819</span>
+            <div className={styles.captionRule} />
+          </div>
+          <p className={styles.tagline}>Build your network.<br />Build your future.</p>
         </div>
       </div>
     </div>
