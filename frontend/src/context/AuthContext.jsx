@@ -15,34 +15,41 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (firebaseUser) => {
-      if (firebaseUser) {
-        setUser(firebaseUser);
-        // Load profile — create stub if first sign-in.
-        const ref = userDocRef(firebaseUser.uid);
-        const snap = await getDoc(ref);
-        if (snap.exists()) {
-          setProfile(snap.data());
+      try {
+        if (firebaseUser) {
+          setUser(firebaseUser);
+          // Load profile — create stub if first sign-in.
+          const ref = userDocRef(firebaseUser.uid);
+          const snap = await getDoc(ref);
+          if (snap.exists()) {
+            setProfile(snap.data());
+          } else {
+            const stub = {
+              displayName: firebaseUser.displayName || '',
+              email: firebaseUser.email || '',
+              major: '',
+              gradYear: '',
+              desiredCareers: [],
+              targetCompanies: [],
+              desiredLocations: [],
+              dailyQueueSize: 3,
+              onboardingComplete: false,
+              createdAt: serverTimestamp(),
+            };
+            await setDoc(ref, stub);
+            setProfile(stub);
+          }
         } else {
-          const stub = {
-            displayName: firebaseUser.displayName || '',
-            email: firebaseUser.email || '',
-            major: '',
-            gradYear: '',
-            desiredCareers: [],
-            targetCompanies: [],
-            desiredLocations: [],
-            dailyQueueSize: 3,
-            onboardingComplete: false,
-            createdAt: serverTimestamp(),
-          };
-          await setDoc(ref, stub);
-          setProfile(stub);
+          setUser(null);
+          setProfile(null);
         }
-      } else {
+      } catch (err) {
+        console.error('Auth init error:', err);
         setUser(null);
         setProfile(null);
+      } finally {
+        setAuthLoading(false);
       }
-      setAuthLoading(false);
     });
     return unsub;
   }, []);
