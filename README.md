@@ -1,4 +1,4 @@
-# Nexus — Student Networking Dashboard
+# Netspand — Student Networking Dashboard
 
 A web app that helps students systematically work their professional network toward a target career. Every day it surfaces the highest-fit contacts from your LinkedIn connections, makes it one click to schedule a Google Meet call, and includes an AI networking coach to help with outreach.
 
