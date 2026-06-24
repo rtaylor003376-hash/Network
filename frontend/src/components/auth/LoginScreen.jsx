@@ -24,13 +24,13 @@ export default function LoginScreen() {
       <div className={styles.card}>
         <div className={styles.logoRow}>
           <div className={styles.logoMark}>N</div>
-          <span className={styles.logoText}>Nexus</span>
+          <span className={styles.logoText}>Netspand</span>
         </div>
 
         <div className={styles.headline}>
           <h1>Your network, working for you.</h1>
           <p>
-            Nexus surfaces the right people from your existing connections every day —
+            Netspand surfaces the right people from your existing connections every day —
             so you can spend less time wondering who to reach out to.
           </p>
         </div>

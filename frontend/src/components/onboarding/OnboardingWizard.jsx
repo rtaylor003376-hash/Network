@@ -23,10 +23,19 @@ const defaultForm = {
 };
 
 export default function OnboardingWizard() {
-  const { user, refreshProfile } = useAuth();
+  const { user, profile, refreshProfile } = useAuth();
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
-  const [form, setForm] = useState(defaultForm);
+  const [form, setForm] = useState(() => ({
+    ...defaultForm,
+    major: profile?.major || '',
+    minor: profile?.minor || '',
+    gradYear: profile?.gradYear || '',
+    desiredCareers: profile?.desiredCareers || [],
+    desiredLocations: profile?.desiredLocations || [],
+    targetCompanies: profile?.targetCompanies || [],
+    dailyQueueSize: profile?.dailyQueueSize || 3,
+  }));
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
 
@@ -67,7 +76,7 @@ export default function OnboardingWizard() {
         <div className={styles.header}>
           <div className={styles.logoRow}>
             <div className={styles.logoMark}>N</div>
-            <span className={styles.logoText}>Nexus</span>
+            <span className={styles.logoText}>Netspand</span>
           </div>
           <p className={styles.stepLabel}>Step {step + 1} of {STEPS.length}</p>
         </div>

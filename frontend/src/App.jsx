@@ -4,6 +4,9 @@ import LoginScreen from './components/auth/LoginScreen.jsx';
 import OnboardingWizard from './components/onboarding/OnboardingWizard.jsx';
 import Dashboard from './components/dashboard/Dashboard.jsx';
 import ConnectionsTab from './components/connections/ConnectionsTab.jsx';
+import GrowPage from './components/grow/GrowPage.jsx';
+import ApplicationsPage from './components/applications/ApplicationsPage.jsx';
+import ResourcesPage from './components/resources/ResourcesPage.jsx';
 import ImportFlow from './components/import/ImportFlow.jsx';
 import EmailTemplatesPage from './components/email/EmailTemplatesPage.jsx';
 import NavBar from './components/shared/NavBar.jsx';
@@ -37,9 +40,9 @@ export default function App() {
           <Route
             path="/onboarding"
             element={
-              user && profile && !profile.onboardingComplete
+              user
                 ? <OnboardingWizard />
-                : <Navigate to={user ? '/dashboard' : '/login'} replace />
+                : <Navigate to="/login" replace />
             }
           />
           <Route
@@ -49,6 +52,18 @@ export default function App() {
           <Route
             path="/connections"
             element={<AuthGate><ConnectionsTab /></AuthGate>}
+          />
+          <Route
+            path="/grow"
+            element={<AuthGate><GrowPage /></AuthGate>}
+          />
+          <Route
+            path="/applications"
+            element={<AuthGate><ApplicationsPage /></AuthGate>}
+          />
+          <Route
+            path="/resources"
+            element={<AuthGate><ResourcesPage /></AuthGate>}
           />
           <Route
             path="/import"

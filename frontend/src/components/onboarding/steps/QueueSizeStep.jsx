@@ -13,7 +13,7 @@ export default function QueueSizeStep({ form, patch, onBack, onFinish, saving })
     <div className={styles.step}>
       <h2>How many people per day?</h2>
       <p className={styles.stepSubtitle}>
-        Each day, Nexus will surface this many high-fit connections from your network.
+        Each day, Netspand will surface this many high-fit connections from your network.
         You can always change this later.
       </p>
 

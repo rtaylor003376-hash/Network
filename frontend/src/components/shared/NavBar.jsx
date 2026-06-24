@@ -23,7 +23,7 @@ export default function NavBar() {
       <div className={styles.inner}>
         <NavLink to="/dashboard" className={styles.logo}>
           <span className={styles.logoMark}>N</span>
-          <span className={styles.logoText}>Nexus</span>
+          <span className={styles.logoText}>Netspand</span>
         </NavLink>
 
         <nav className={styles.links}>
@@ -38,6 +38,24 @@ export default function NavBar() {
             className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ''}`}
           >
             Network
+          </NavLink>
+          <NavLink
+            to="/grow"
+            className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ''}`}
+          >
+            Grow
+          </NavLink>
+          <NavLink
+            to="/applications"
+            className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ''}`}
+          >
+            Applications
+          </NavLink>
+          <NavLink
+            to="/resources"
+            className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ''}`}
+          >
+            Resources
           </NavLink>
           <NavLink
             to="/import"

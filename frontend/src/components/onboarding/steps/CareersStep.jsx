@@ -1,18 +1,6 @@
 import { useState } from 'react';
+import { PRESET_CAREERS } from '../../../data/targetOptions.js';
 import styles from '../../../styles/OnboardingWizard.module.css';
-
-const PRESET_CAREERS = [
-  'Strategy Consulting',
-  'Software Engineering',
-  'Product Management',
-  'Investment Banking',
-  'Data Science',
-  'Marketing',
-  'Venture Capital',
-  'Private Equity',
-  'Corporate Finance',
-  'UX / Product Design',
-];
 
 export default function CareersStep({ form, patch, onNext, onBack }) {
   const [custom, setCustom] = useState('');
