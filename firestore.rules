@@ -20,6 +20,11 @@ service cloud.firestore {
       match /emailTemplates/{templateId} {
         allow read, write: if request.auth != null && request.auth.uid == uid;
       }
+
+      // Users can only read/write their own application tracker rows.
+      match /applications/{applicationId} {
+        allow read, write: if request.auth != null && request.auth.uid == uid;
+      }
     }
 
     // Deny everything else.

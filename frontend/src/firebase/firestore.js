@@ -11,3 +11,5 @@ export const meetingsRef = (uid) => collection(db, 'users', uid, 'meetings');
 export const meetingDocRef = (uid, meetingId) => doc(db, 'users', uid, 'meetings', meetingId);
 export const emailTemplatesRef = (uid) => collection(db, 'users', uid, 'emailTemplates');
 export const emailTemplateDocRef = (uid, templateId) => doc(db, 'users', uid, 'emailTemplates', templateId);
+export const applicationsRef = (uid) => collection(db, 'users', uid, 'applications');
+export const applicationDocRef = (uid, applicationId) => doc(db, 'users', uid, 'applications', applicationId);

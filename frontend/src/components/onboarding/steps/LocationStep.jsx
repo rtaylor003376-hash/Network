@@ -1,24 +1,17 @@
 import { useState } from 'react';
+import { ANYWHERE_LOCATION, PRESET_LOCATIONS } from '../../../data/targetOptions.js';
 import styles from '../../../styles/OnboardingWizard.module.css';
-
-const PRESET_LOCATIONS = [
-  'New York, NY', 'San Francisco, CA', 'Seattle, WA', 'Chicago, IL',
-  'Boston, MA', 'Los Angeles, CA', 'Austin, TX', 'Washington, DC',
-  'Atlanta, GA', 'Denver, CO',
-];
-
-const ANYWHERE = 'Open to Anywhere';
 
 export default function LocationStep({ form, patch, onNext, onBack }) {
   const [custom, setCustom] = useState('');
 
-  const isAnywhere = form.desiredLocations.includes(ANYWHERE);
+  const isAnywhere = form.desiredLocations.includes(ANYWHERE_LOCATION);
 
   function toggleAnywhere() {
     if (isAnywhere) {
       patch({ desiredLocations: [] });
     } else {
-      patch({ desiredLocations: [ANYWHERE] });
+      patch({ desiredLocations: [ANYWHERE_LOCATION] });
     }
   }
 
@@ -33,7 +26,7 @@ export default function LocationStep({ form, patch, onNext, onBack }) {
   function addCustom() {
     const trimmed = custom.trim();
     if (!trimmed || form.desiredLocations.includes(trimmed)) { setCustom(''); return; }
-    patch({ desiredLocations: [...form.desiredLocations.filter((l) => l !== ANYWHERE), trimmed] });
+    patch({ desiredLocations: [...form.desiredLocations.filter((l) => l !== ANYWHERE_LOCATION), trimmed] });
     setCustom('');
   }
 
@@ -50,7 +43,7 @@ export default function LocationStep({ form, patch, onNext, onBack }) {
         onClick={toggleAnywhere}
         style={{ marginBottom: 'var(--space-3)' }}
       >
-        {ANYWHERE}
+        {ANYWHERE_LOCATION}
       </button>
 
       {!isAnywhere && (
@@ -66,7 +59,7 @@ export default function LocationStep({ form, patch, onNext, onBack }) {
                 {loc}
               </button>
             ))}
-            {form.desiredLocations.filter((l) => !PRESET_LOCATIONS.includes(l) && l !== ANYWHERE).map((l) => (
+            {form.desiredLocations.filter((l) => !PRESET_LOCATIONS.includes(l) && l !== ANYWHERE_LOCATION).map((l) => (
               <button
                 key={l}
                 type="button"
