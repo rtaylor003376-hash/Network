@@ -22,4 +22,8 @@ export const ClaudeAiService = {
   async draftEmail({ connection, userProfile, instructions, firebaseIdToken }) {
     return apiFetch('/api/ai/draft-email', { connection, userProfile, instructions }, firebaseIdToken);
   },
+
+  async meetingPrep({ connection, userProfile, firebaseIdToken }) {
+    return apiFetch('/api/ai/meeting-prep', { connection, userProfile }, firebaseIdToken);
+  },
 };

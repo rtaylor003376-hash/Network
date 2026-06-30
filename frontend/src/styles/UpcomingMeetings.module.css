@@ -76,6 +76,13 @@
   color: var(--color-text-muted);
 }
 
+.links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: 1px;
+}
+
 .meetLink {
   font-size: var(--font-size-xs);
   font-weight: 600;
@@ -84,4 +91,19 @@
 
 .meetLink:hover {
   text-decoration: underline;
+}
+
+.prepBtn {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-accent);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+}
+
+.prepBtn:hover {
+  opacity: 0.75;
 }

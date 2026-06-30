@@ -1,10 +1,7 @@
+import { useState } from 'react';
 import { useMeetings } from '../../hooks/useMeetings.js';
+import MeetingPrepModal from './MeetingPrepModal.jsx';
 import styles from '../../styles/UpcomingMeetings.module.css';
-
-function formatDate(iso) {
-  const d = new Date(iso);
-  return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
-}
 
 function formatTime(iso) {
   return new Date(iso).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
@@ -12,6 +9,7 @@ function formatTime(iso) {
 
 export default function UpcomingMeetings() {
   const { meetings, loading } = useMeetings();
+  const [prepFor, setPrepFor] = useState(null);
 
   const upcoming = meetings.filter((m) => new Date(m.scheduledAt) >= new Date());
 
@@ -39,20 +37,29 @@ export default function UpcomingMeetings() {
                   {m.connectionCompany && `${m.connectionCompany} · `}
                   {formatTime(m.scheduledAt)} · {m.durationMins} min
                 </span>
-                {m.meetLink && (
-                  <a
-                    href={m.meetLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.meetLink}
-                  >
-                    Join Google Meet ↗
-                  </a>
-                )}
+                <div className={styles.links}>
+                  {m.meetLink && (
+                    <a
+                      href={m.meetLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.meetLink}
+                    >
+                      Join Meet ↗
+                    </a>
+                  )}
+                  <button className={styles.prepBtn} onClick={() => setPrepFor(m)}>
+                    ✦ Prep notes
+                  </button>
+                </div>
               </div>
             </li>
           ))}
         </ul>
+      )}
+
+      {prepFor && (
+        <MeetingPrepModal meeting={prepFor} onClose={() => setPrepFor(null)} />
       )}
     </div>
   );
