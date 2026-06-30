@@ -62,13 +62,10 @@ function DeckLayout({ connection, rank, onSchedule, onSnooze, onDismiss, onEmail
       </div>
 
       <div className={styles.deckActions}>
-        <button className={`btn-primary ${styles.deckScheduleBtn}`} onClick={onSchedule}>
-          Schedule a call
+        <button className={`btn-primary ${styles.deckScheduleBtn}`} onClick={() => setComposing(true)}>
+          ✉ Email {connection.firstName}
         </button>
         <div className={styles.deckSecondary}>
-          <button className="btn-secondary" onClick={() => setComposing(true)}>
-            Email
-          </button>
           <button className="btn-ghost" onClick={onSnooze} title="Snooze 7 days">
             ⏱ Snooze
           </button>

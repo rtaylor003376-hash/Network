@@ -64,6 +64,8 @@ export function rankConnections(connections, userPrefs) {
 
   const eligible = connections.filter(
     (c) =>
+      c.status !== 'queued' &&
+      c.status !== 'matched' &&
       c.status !== 'scheduled' &&
       c.status !== 'met' &&
       !c.dismissed &&
@@ -96,12 +98,14 @@ export function rankConnections(connections, userPrefs) {
 export function buildDailyQueue(connections, userPrefs) {
   const todayStr = new Date().toISOString().split('T')[0];
   const ranked = rankConnections(connections, userPrefs);
-
-  // Partition into not-shown-today and shown-today, keep already-shown at end.
-  const fresh = ranked.filter((c) => c.shownOn !== todayStr);
-  const alreadyShown = ranked.filter((c) => c.shownOn === todayStr);
-
-  const ordered = [...fresh, ...alreadyShown];
   const n = userPrefs.dailyQueueSize || 3;
-  return ordered.slice(0, n);
+
+  // priority:true connections (mock/testing only) always appear first.
+  const pinned = ranked.filter((c) => c.priority);
+  const rest = ranked.filter((c) => !c.priority);
+
+  const fresh = rest.filter((c) => c.shownOn !== todayStr);
+  const alreadyShown = rest.filter((c) => c.shownOn === todayStr);
+
+  return [...pinned, ...fresh, ...alreadyShown].slice(0, n);
 }

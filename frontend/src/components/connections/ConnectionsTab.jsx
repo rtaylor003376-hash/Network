@@ -1,24 +1,31 @@
 import { useState, useMemo } from 'react';
 import { useConnections } from '../../hooks/useConnections.js';
+import { useMeetings } from '../../hooks/useMeetings.js';
+import { useStreak } from '../../hooks/useStreak.js';
 import { useNavigate } from 'react-router-dom';
+import ScheduleModal from '../schedule/ScheduleModal.jsx';
 import LoadingSpinner from '../shared/LoadingSpinner.jsx';
 import EmptyState from '../shared/EmptyState.jsx';
 import ConnectionGroup from './ConnectionGroup.jsx';
 import styles from '../../styles/ConnectionsTab.module.css';
 
 const STATUS_FILTERS = [
-  { value: 'all', label: 'All' },
-  { value: 'new', label: 'New' },
-  { value: 'queued', label: 'Queued' },
+  { value: 'all',       label: 'All' },
+  { value: 'new',       label: 'New' },
+  { value: 'queued',    label: 'Queued' },
+  { value: 'matched',   label: 'Matched' },
   { value: 'scheduled', label: 'Scheduled' },
-  { value: 'met', label: 'Met' },
+  { value: 'met',       label: 'Met' },
 ];
 
 export default function ConnectionsTab() {
-  const { connections, loading } = useConnections();
+  const { connections, loading, updateConnection } = useConnections();
+  const { addMeeting } = useMeetings();
+  const { recordAction } = useStreak();
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [schedulingFor, setSchedulingFor] = useState(null);
 
   const filtered = useMemo(() => {
     let list = connections;
@@ -35,7 +42,6 @@ export default function ConnectionsTab() {
     return list;
   }, [connections, search, statusFilter]);
 
-  // Group by company, then sort companies alphabetically.
   const grouped = useMemo(() => {
     const map = {};
     for (const conn of filtered) {
@@ -45,6 +51,26 @@ export default function ConnectionsTab() {
     }
     return Object.entries(map).sort(([a], [b]) => a.localeCompare(b));
   }, [filtered]);
+
+  async function handleMarkReplied(connId) {
+    await updateConnection(connId, { status: 'matched', lastInteractionAt: new Date().toISOString() });
+  }
+
+  async function handleScheduled(connection, meetingData) {
+    await addMeeting({
+      connectionId: connection.id,
+      connectionName: `${connection.firstName} ${connection.lastName}`,
+      connectionCompany: connection.company,
+      connectionPosition: connection.position,
+      ...meetingData,
+    });
+    await updateConnection(connection.id, {
+      status: 'scheduled',
+      lastInteractionAt: new Date().toISOString(),
+    });
+    await recordAction({ isMeeting: true });
+    setSchedulingFor(null);
+  }
 
   if (loading) return <div className={styles.page}><LoadingSpinner /></div>;
 
@@ -105,9 +131,23 @@ export default function ConnectionsTab() {
       ) : (
         <div className={styles.groups}>
           {grouped.map(([company, conns]) => (
-            <ConnectionGroup key={company} company={company} connections={conns} />
+            <ConnectionGroup
+              key={company}
+              company={company}
+              connections={conns}
+              onMarkReplied={handleMarkReplied}
+              onSchedule={setSchedulingFor}
+            />
           ))}
         </div>
+      )}
+
+      {schedulingFor && (
+        <ScheduleModal
+          connection={schedulingFor}
+          onClose={() => setSchedulingFor(null)}
+          onScheduled={handleScheduled}
+        />
       )}
     </div>
   );

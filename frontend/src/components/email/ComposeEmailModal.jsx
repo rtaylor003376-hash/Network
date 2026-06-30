@@ -36,11 +36,11 @@ export default function ComposeEmailModal({ connection, onClose, onEmailAction }
     }
   }, [selectedId, templates]);
 
-  function handleOpenEmail() {
+  function handleOpenInGmail() {
     const to = connection.email || '';
-    const url = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const url = `https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(to)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     window.open(url, '_blank');
-    onEmailAction?.();
+    onEmailAction?.(connection.id);
   }
 
   async function handleCopy() {
@@ -48,7 +48,7 @@ export default function ComposeEmailModal({ connection, onClose, onEmailAction }
     await navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
-    onEmailAction?.();
+    onEmailAction?.(connection.id);
   }
 
   async function handleAiDraft() {
@@ -165,8 +165,8 @@ export default function ComposeEmailModal({ connection, onClose, onEmailAction }
             {copied ? 'Copied!' : 'Copy to clipboard'}
           </button>
           {connection.email && (
-            <button className="btn-primary" onClick={handleOpenEmail} disabled={!subject && !body}>
-              Open in email client
+            <button className="btn-primary" onClick={handleOpenInGmail} disabled={!subject && !body}>
+              Open in Gmail ↗
             </button>
           )}
         </div>

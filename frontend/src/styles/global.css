@@ -188,7 +188,8 @@ input, select, textarea {
   letter-spacing: 0.04em;
 }
 
-.status-new    { background: #ede9fe; color: var(--color-status-new); }
-.status-queued { background: var(--color-brand-light); color: var(--color-status-queued); }
+.status-new       { background: #ede9fe; color: var(--color-status-new); }
+.status-queued    { background: var(--color-brand-light); color: var(--color-status-queued); }
+.status-matched   { background: var(--color-accent-light); color: var(--color-accent); }
 .status-scheduled { background: var(--color-success-light); color: var(--color-success); }
-.status-met    { background: var(--color-surface-raised); color: var(--color-status-met); }
+.status-met       { background: var(--color-surface-raised); color: var(--color-status-met); }

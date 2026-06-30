@@ -8,10 +8,9 @@ function getAvatarColor(name) {
   return colors[Math.abs(hash) % colors.length];
 }
 
-export default function ConnectionGroup({ company, connections }) {
+export default function ConnectionGroup({ company, connections, onMarkReplied, onSchedule }) {
   const [collapsed, setCollapsed] = useState(false);
 
-  // Sub-group by position within the company.
   const byPosition = connections.reduce((acc, c) => {
     const key = c.position || 'Unknown role';
     if (!acc[key]) acc[key] = [];
@@ -53,7 +52,29 @@ export default function ConnectionGroup({ company, connections }) {
                         <span className={styles.personName}>{name}</span>
                         {c.location && <span className={styles.personLoc}>{c.location}</span>}
                       </div>
+
                       <span className={`status-chip status-${c.status}`}>{c.status}</span>
+
+                      {c.status === 'queued' && (
+                        <button
+                          className={styles.actionBtn}
+                          onClick={() => onMarkReplied?.(c.id)}
+                          title="They replied — move to Matched"
+                        >
+                          ✓ Replied
+                        </button>
+                      )}
+
+                      {c.status === 'matched' && (
+                        <button
+                          className={`${styles.actionBtn} ${styles.actionBtnPrimary}`}
+                          onClick={() => onSchedule?.(c)}
+                          title="Schedule a call"
+                        >
+                          📅 Schedule
+                        </button>
+                      )}
+
                       {c.linkedinUrl && (
                         <a
                           href={c.linkedinUrl}

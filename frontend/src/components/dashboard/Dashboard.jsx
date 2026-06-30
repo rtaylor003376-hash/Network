@@ -31,7 +31,10 @@ export default function Dashboard() {
     setSchedulingFor(null);
   }
 
-  async function handleEmailAction() {
+  async function handleEmailAction(connectionId) {
+    if (connectionId) {
+      await updateConnection(connectionId, { status: 'queued', lastInteractionAt: new Date().toISOString() });
+    }
     await recordAction({ isMeeting: false });
   }
 
