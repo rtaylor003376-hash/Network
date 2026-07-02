@@ -5,6 +5,23 @@ const today = new Date().toISOString().split('T')[0];
 
 export const mockConnections = [
   {
+    id: 'mock_000',
+    firstName: 'Ryan',
+    lastName: 'Taylor',
+    email: 'rtaylor003376@gmail.com',
+    company: 'University of Virginia',
+    position: 'Computer Science Student',
+    location: 'Charlottesville, VA',
+    linkedinUrl: 'https://linkedin.com/in/ryan-taylor-uva',
+    connectedOn: today,
+    source: 'manual',
+    status: 'new',
+    matchScore: 0,
+    dismissed: false,
+    priority: true,
+    bio: 'Fellow UVA CS student, SAE member. Testing the networking flow.',
+  },
+  {
     id: 'mock_001',
     firstName: 'Priya',
     lastName: 'Sharma',

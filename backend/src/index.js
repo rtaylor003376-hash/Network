@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import calendarRouter from './routes/calendar.js';
 import aiRouter from './routes/ai.js';
+import gmailRouter from './routes/gmail.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const serviceAccount = JSON.parse(
@@ -26,5 +27,6 @@ app.use(express.json());
 app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
 app.use('/api/calendar', calendarRouter);
 app.use('/api/ai', aiRouter);
+app.use('/api/gmail', gmailRouter);
 
 app.listen(PORT, () => console.log(`Backend running on http://localhost:${PORT}`));

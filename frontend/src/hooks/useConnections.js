@@ -13,16 +13,34 @@ import { mockConnections } from '../data/mockConnections.js';
 
 const useMocks = import.meta.env.VITE_USE_MOCKS !== 'false';
 
+// Module-level store so all useConnections() instances share state in mock mode.
+const mockStore = {
+  connections: mockConnections.map((c) => ({ ...c })),
+  listeners: new Set(),
+  set(next) {
+    this.connections = next;
+    this.listeners.forEach((fn) => fn(next));
+  },
+  update(id, updates) {
+    this.set(this.connections.map((c) => (c.id === id ? { ...c, ...updates } : c)));
+  },
+  add(newConns) {
+    this.set([...this.connections, ...newConns]);
+  },
+};
+
 export function useConnections() {
   const { user } = useAuth();
-  const [connections, setConnections] = useState([]);
+  const [connections, setConnections] = useState(useMocks ? mockStore.connections : []);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (useMocks) {
-      setConnections(mockConnections.map((c) => ({ ...c })));
+      setConnections([...mockStore.connections]);
       setLoading(false);
-      return;
+      const fn = (cs) => setConnections([...cs]);
+      mockStore.listeners.add(fn);
+      return () => mockStore.listeners.delete(fn);
     }
     if (!user) {
       setConnections([]);
@@ -40,7 +58,7 @@ export function useConnections() {
 
   async function importConnections(newConnections) {
     if (useMocks) {
-      setConnections((prev) => [...prev, ...newConnections]);
+      mockStore.add(newConnections);
       return { added: newConnections.length, duplicates: 0 };
     }
     if (!user) return;
@@ -64,7 +82,7 @@ export function useConnections() {
 
   async function updateConnection(connId, updates) {
     if (useMocks) {
-      setConnections((prev) => prev.map((c) => c.id === connId ? { ...c, ...updates } : c));
+      mockStore.update(connId, updates);
       return;
     }
     if (!user) return;
@@ -84,8 +102,10 @@ export function useConnections() {
   async function markShownToday(connIds) {
     if (useMocks) {
       const todayStr = new Date().toISOString().split('T')[0];
-      setConnections((prev) =>
-        prev.map((c) => connIds.includes(c.id) ? { ...c, shownOn: todayStr } : c)
+      mockStore.set(
+        mockStore.connections.map((c) =>
+          connIds.includes(c.id) ? { ...c, shownOn: todayStr } : c
+        )
       );
       return;
     }
